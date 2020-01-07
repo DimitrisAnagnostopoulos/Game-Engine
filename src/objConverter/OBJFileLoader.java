@@ -38,20 +38,17 @@ public class OBJFileLoader {
 				line = reader.readLine();
 				if (line.startsWith("v ")) {
 					String[] currentLine = line.split(" ");
-					Vector3f vertex = new Vector3f((float) Float.valueOf(currentLine[1]),
-							(float) Float.valueOf(currentLine[2]), (float) Float.valueOf(currentLine[3]));
+					Vector3f vertex = new Vector3f((float) Float.valueOf(currentLine[1]), (float) Float.valueOf(currentLine[2]), (float) Float.valueOf(currentLine[3]));
 					Vertex newVertex = new Vertex(vertices.size(), vertex, null);
 					vertices.add(newVertex);
 
 				} else if (line.startsWith("vt ")) {
 					String[] currentLine = line.split(" ");
-					Vector2f texture = new Vector2f((float) Float.valueOf(currentLine[1]),
-							(float) Float.valueOf(currentLine[2]));
+					Vector2f texture = new Vector2f((float) Float.valueOf(currentLine[1]), (float) Float.valueOf(currentLine[2]));
 					textures.add(texture);
 				} else if (line.startsWith("vn ")) {
 					String[] currentLine = line.split(" ");
-					Vector3f normal = new Vector3f((float) Float.valueOf(currentLine[1]),
-							(float) Float.valueOf(currentLine[2]), (float) Float.valueOf(currentLine[3]));
+					Vector3f normal = new Vector3f((float) Float.valueOf(currentLine[1]), (float) Float.valueOf(currentLine[2]), (float) Float.valueOf(currentLine[3]));
 					normals.add(normal);
 				} else if (line.startsWith("f ")) {
 					break;
@@ -77,8 +74,7 @@ public class OBJFileLoader {
 		float[] normalsArray = new float[vertices.size() * 3];
 		convertDataToArrays(vertices, textures, normals, verticesArray, texturesArray, normalsArray);
 		int[] indicesArray = convertIndicesListToArray(indices);
-		MeshData meshData = new MeshData(verticesArray, texturesArray, normalsArray, indicesArray,
-				new int[indicesArray.length * 3], new float[indicesArray.length * 3]);
+		MeshData meshData = new MeshData(verticesArray, texturesArray, normalsArray, indicesArray, new int[indicesArray.length*3], new float[indicesArray.length*3]);
 		ModelData data = new ModelData(meshData, null);
 		return data;
 	}
@@ -105,8 +101,7 @@ public class OBJFileLoader {
 		return indicesArray;
 	}
 
-	private static float convertDataToArrays(List<Vertex> vertices, List<Vector2f> textures, List<Vector3f> normals,
-			float[] verticesArray, float[] texturesArray, float[] normalsArray) {
+	private static float convertDataToArrays(List<Vertex> vertices, List<Vector2f> textures, List<Vector3f> normals, float[] verticesArray, float[] texturesArray, float[] normalsArray) {
 		float furthestPoint = 0;
 		for (int i = 0; i < vertices.size(); i++) {
 			Vertex currentVertex = vertices.get(i);
@@ -128,8 +123,7 @@ public class OBJFileLoader {
 		return furthestPoint;
 	}
 
-	private static void dealWithAlreadyProcessedVertex(Vertex previousVertex, int newTextureIndex, int newNormalIndex,
-			List<Integer> indices, List<Vertex> vertices) {
+	private static void dealWithAlreadyProcessedVertex(Vertex previousVertex, int newTextureIndex, int newNormalIndex, List<Integer> indices, List<Vertex> vertices) {
 		if (previousVertex.hasSameTextureAndNormal(newTextureIndex, newNormalIndex)) {
 			indices.add(previousVertex.getIndex());
 		} else {

@@ -5,7 +5,6 @@ import org.lwjgl.util.vector.Matrix4f;
 import animation.Animation;
 import animation.Animator;
 import dataStructures.JointData;
-import game.Handler;
 import textures.ModelTexture;
 
 public class Model {
@@ -14,7 +13,7 @@ public class Model {
 	private RawModel boundingBox;
 	private RawModel absoluteBoundingBox;
 	private ModelTexture texture;
-
+	
 	private Joint rootJoint = null;
 	private int jointCount = 0;
 
@@ -38,7 +37,7 @@ public class Model {
 	public void setRawModel(RawModel rawModel) {
 		this.rawModel = rawModel;
 	}
-
+	
 	public RawModel getBoundingBox() {
 		return boundingBox;
 	}
@@ -58,38 +57,14 @@ public class Model {
 	public ModelTexture getTexture() {
 		return texture;
 	}
-
+	
 	public Joint getRootJoint() {
 		return rootJoint;
 	}
 
-	public Animator getAnimator() {
-		return animator;
-	}
-
-	public void setAnimator(Animator animator) {
-		this.animator = animator;
-	}
-
 	public void doAnimation(Animation animation) {
-		if (this.animator != null && this.animator.getCurrentAnimation() != animation) {
+		if (this.animator != null) {
 			animator.doAnimation(animation);
-		}
-	}
-
-	public void doAnimation(String FileName) {
-		if (this.animator != null) {
-			Handler.loadAnimation(FileName);
-			Animation animation = Handler.getLoadedAnimations().get(FileName);
-			if (this.animator.getCurrentAnimation() != animation) {
-				animator.doAnimation(animation);
-			}
-		}
-	}
-
-	public void stopAnimation() {
-		if (this.animator != null) {
-			this.animator.stopAnimation();
 		}
 	}
 
@@ -111,7 +86,7 @@ public class Model {
 			addJointsToArray(childJoint, jointMatrices);
 		}
 	}
-
+	
 	private static Joint createJoints(JointData data) {
 		Joint joint = new Joint(data.index, data.nameId, data.bindLocalTransform);
 		for (JointData child : data.children) {

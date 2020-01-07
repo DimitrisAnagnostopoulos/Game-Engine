@@ -77,7 +77,7 @@ public class RawModel {
 	public void setIndices(List<Integer> indices) {
 		this.indices = indices;
 	}
-
+	
 	public List<Float> getWeights() {
 		return weights;
 	}
@@ -85,7 +85,7 @@ public class RawModel {
 	public void setWeights(List<Float> weights) {
 		this.weights = weights;
 	}
-
+	
 	public List<Integer> getJointIndices() {
 		return jointIndices;
 	}
@@ -93,7 +93,7 @@ public class RawModel {
 	public void setJointIndices(List<Integer> jointIndices) {
 		this.jointIndices = jointIndices;
 	}
-
+	
 	public SkeletonData getJoints() {
 		return joints;
 	}

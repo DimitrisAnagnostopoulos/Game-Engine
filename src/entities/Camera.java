@@ -35,8 +35,7 @@ public class Camera {
 			increasePosition(-dx, -dy, -dz);
 		}
 		if (Keyboard.isKeyDown(Keyboard.KEY_LEFT)) {
-			increasePosition((float) Math.sin(Math.toRadians(-yaw - 90)), 0,
-					(float) Math.cos(Math.toRadians(-yaw - 90)));
+			increasePosition((float) Math.sin(Math.toRadians(-yaw - 90)), 0, (float) Math.cos(Math.toRadians(-yaw - 90)));
 		} else if (Keyboard.isKeyDown(Keyboard.KEY_RIGHT)) {
 			increasePosition((float) Math.sin(Math.toRadians(90 - yaw)), 0, (float) Math.cos(Math.toRadians(90 - yaw)));
 		}

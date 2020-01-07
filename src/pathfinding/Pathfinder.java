@@ -45,8 +45,7 @@ public class Pathfinder {
 	}
 
 	public void findPath(Node startNode, Node goalNode, Vector3f startPoint, Vector3f endPoint) {
-		if (this.nodes.isEmpty() == false && startNode == this.nodes.get(0)
-				&& goalNode == this.nodes.get(nodes.size() - 1)) {
+		if (this.nodes.isEmpty() == false && startNode == this.nodes.get(0) && goalNode == this.nodes.get(nodes.size() - 1)) {
 			this.points = findPathPoints(this.nodes, Maths.get2D(startPoint), Maths.get2D(endPoint));
 		} else {
 			this.nodes = findPathNodes(startNode, goalNode);
@@ -71,9 +70,7 @@ public class Pathfinder {
 		midpointPath.add(start);
 		for (int i = 0; i <= nodeList.size() - 2; i++) {
 			Vector3f[] commonVertices = getCommonVertices(nodeList.get(i), nodeList.get(i + 1));
-			if (Maths.angleBetween2DPoints(
-					Vector2f.sub(Maths.get2D(nodeList.get(i + 1).getCenter()), Maths.get2D(nodeList.get(i).getCenter()),
-							null),
+			if (Maths.angleBetween2DPoints(Vector2f.sub(Maths.get2D(nodeList.get(i + 1).getCenter()), Maths.get2D(nodeList.get(i).getCenter()), null),
 					Vector2f.sub(Maths.get2D(commonVertices[0]), Maths.get2D(nodeList.get(i).getCenter()), null)) < 0) {
 				leftSide[i] = Maths.get2D(commonVertices[0]);
 				rightSide[i] = Maths.get2D(commonVertices[1]);
@@ -91,27 +88,20 @@ public class Pathfinder {
 		path.add(start);
 		int index = 1;
 		for (int i = 0; i <= nodeList.size() - 1; i++) {
-			// make sure all the left points are on the left of our path so far
-			// and
+			// make sure all the left points are on the left of our path so far and
 			// all the right are on our right
 			for (int j = index; j <= i; j++) {
-				float angleToLeft = Maths.angleBetween2DPoints(
-						Vector2f.sub(leftSide[i], path.get(path.size() - 1), null),
-						Vector2f.sub(leftSide[j], path.get(path.size() - 1), null));
+				float angleToLeft = Maths.angleBetween2DPoints(Vector2f.sub(leftSide[i], path.get(path.size() - 1), null), Vector2f.sub(leftSide[j], path.get(path.size() - 1), null));
 				if (angleToLeft > 1) {
 					index = i - 1;
-					Vector2f offset = (Vector2f) Vector2f.sub(midpointPath.get(index), leftSide[index], null)
-							.normalise().scale(offsetDistance);
-					path.add(Vector2f.add(leftSide[index], offset, null));
+					Vector2f offset = (Vector2f) Vector2f.sub(midpointPath.get(index), leftSide[index], null).normalise().scale(offsetDistance);
+					path.add(Vector2f.add(leftSide[index], offset, null));	
 					break;
 				}
-				float angleToRight = Maths.angleBetween2DPoints(
-						Vector2f.sub(rightSide[i], path.get(path.size() - 1), null),
-						Vector2f.sub(rightSide[j], path.get(path.size() - 1), null));
+				float angleToRight = Maths.angleBetween2DPoints(Vector2f.sub(rightSide[i], path.get(path.size() - 1), null), Vector2f.sub(rightSide[j], path.get(path.size() - 1), null));
 				if (angleToRight < -1) {
 					index = i - 1;
-					Vector2f offset = (Vector2f) Vector2f.sub(midpointPath.get(index), rightSide[index], null)
-							.normalise().scale(offsetDistance);
+					Vector2f offset = (Vector2f) Vector2f.sub(midpointPath.get(index), rightSide[index], null).normalise().scale(offsetDistance);
 					path.add(Vector2f.add(rightSide[index], offset, null));
 					break;
 				}
@@ -137,7 +127,7 @@ public class Pathfinder {
 	public Vector2f getMidPoint(Vector2f a, Vector2f b) {
 		return new Vector2f((a.x + b.x) / 2, (a.y + b.y) / 2);
 	}
-
+	
 	protected List<Node> constructPath(Node node) {
 		LinkedList<Node> path = new LinkedList<>();
 		while (node.pathParent != null) {
@@ -199,8 +189,7 @@ public class Pathfinder {
 			Vector2f destination = points.get(pathIndex);
 			if (Maths.distanceBetween2DPoints(position, destination) < 1 && currentSpeed > 0) {
 				pathIndex++;
-			} else if (pathIndex > 0 && Maths.distanceBetween2DPoints(position, points.get(pathIndex - 1)) < 1
-					&& currentSpeed < 0) {
+			} else if (pathIndex > 0 && Maths.distanceBetween2DPoints(position, points.get(pathIndex - 1)) < 1 && currentSpeed < 0) {
 				pathIndex--;
 			}
 			float angle = this.entity.getRotY();

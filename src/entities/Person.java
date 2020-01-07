@@ -33,7 +33,7 @@ public class Person extends Entity implements Serializable {
 	public void move() {
 		if (super.pathfinder != null && super.pathfinder.points.isEmpty() == false) {
 			super.pathfinder.followPath();
-		}
+		} 
 		super.increaseRotation(0, currentTurnSpeed * DisplayManager.getDelta(), 0);
 		float distance = getCurrentSpeed() * DisplayManager.getDelta();
 		float dx = (float) (distance * Math.sin(Math.toRadians(super.getRotY())));
@@ -51,25 +51,20 @@ public class Person extends Entity implements Serializable {
 	}
 
 	private void followPlayer() {
-		if (super.pathfinder != null && this.floor != null && this.triangle != null && Handler.player.triangle != null
-				&& this.floor == Handler.player.floor) {
-			super.pathfinder.findPath((Node) this.triangle, (Node) Handler.player.triangle, this.getPosition(),
-					Handler.player.getPosition());
+		if (super.pathfinder != null && this.floor != null && this.triangle != null && Handler.player.triangle != null && this.floor == Handler.player.floor) {
+			super.pathfinder.findPath((Node) this.triangle, (Node) Handler.player.triangle, this.getPosition(), Handler.player.getPosition());
 			boolean collides = false;
 			List<Entity> persons = new ArrayList<>();
 			persons.addAll(Handler.getEntities("Person"));
 			persons.add(Handler.player);
 			for (Entity person : persons) {
-				if (person == this)
-					continue;
+				if (person == this) continue;
 				float distance = RUN_SPEED;
 				float dx = (float) (distance * Math.sin(Math.toRadians(super.getRotY())));
 				float dz = (float) (distance * Math.cos(Math.toRadians(super.getRotY())));
-				Vector3f futurePosition = Vector3f.add(this.getPosition(), new Vector3f(dx, 0, dz), null);
-				if (Maths.distanceBetweenPoints(futurePosition, person.getPosition()) < this.getRadius()
-						+ person.getRadius()
-						&& Maths.distanceBetweenPoints(futurePosition, person.getPosition()) < Maths
-								.distanceBetweenPoints(this.getPosition(), person.getPosition())) {
+				Vector3f futurePosition = Vector3f.add(this.getPosition(), new Vector3f(dx, 0 , dz), null);
+				if (Maths.distanceBetweenPoints(futurePosition, person.getPosition()) < this.getRadius() + person.getRadius() && 
+						Maths.distanceBetweenPoints(futurePosition, person.getPosition()) < Maths.distanceBetweenPoints(this.getPosition(), person.getPosition())) {
 					collides = true;
 					break;
 				}

@@ -39,7 +39,6 @@ public class Handler {
 
 	static Map<String, RawModel> loadedModels = new HashMap<>();
 	static Map<String, RawModel> loadedBoundingBoxes = new HashMap<>();
-	static Map<String, Animation> loadedAnimations = new HashMap<>();
 
 	public static Camera camera;
 	public static Light light;
@@ -50,7 +49,7 @@ public class Handler {
 	public static Map<Class<? extends Entity>, List<? extends Entity>> getEntities() {
 		return Handler.entities;
 	}
-
+	
 	public static List<? extends Entity> getEntities(String className) {
 		List<? extends Entity> entities = new ArrayList<>();
 		for (Map.Entry<Class<? extends Entity>, List<? extends Entity>> entry : Handler.entities.entrySet()) {
@@ -74,10 +73,6 @@ public class Handler {
 		return loadedBoundingBoxes;
 	}
 
-	public static Map<String, Animation> getLoadedAnimations() {
-		return loadedAnimations;
-	}
-
 	public static void assignModelToEntity(Entity entity) {
 		RawModel rawModel = null;
 		RawModel boundingBox = null;
@@ -88,8 +83,7 @@ public class Handler {
 			boundingBox = loadedBoundingBox;
 		} else {
 			ModelData data = Game.loader.loadModelDataFromFile(entity.getSheet().model);
-			rawModel = Game.loader.loadToVAO(data.getVertices(), data.getTextureCoords(), data.getNormals(),
-					data.getIndices(), data.getJointIds(), data.getVertexWeights());
+			rawModel = Game.loader.loadToVAO(data.getVertices(), data.getTextureCoords(), data.getNormals(), data.getIndices(), data.getJointIds(), data.getVertexWeights());
 			rawModel.setJoints(data.getJointsData());
 			ModelData bbData = null;
 			if (entity.getSheet().boundingBox.length() != 0) {
@@ -102,53 +96,39 @@ public class Handler {
 				boundingBox.setJoints(bbData.getJointsData());
 			} else {
 				bbData = data;
-				boundingBox = Game.loader.generateBoundingBox(
-						Game.loader.generateBoundaries(Game.loader.generateVertices(bbData)), null);
+				boundingBox = Game.loader.generateBoundingBox(Game.loader.generateBoundaries(Game.loader.generateVertices(bbData)), null);
 			}
 			loadedModels.put(entity.getSheet().model, rawModel);
 			loadedBoundingBoxes.put(entity.getSheet().model, boundingBox);
 		}
 
-		ModelTexture texture = null;
-		if (entity.getSheet().texture != "") texture = new ModelTexture(Game.loader.loadTexture(entity.getSheet().texture));
-		Model model = new Model(rawModel, texture);
+		Model model = new Model(rawModel, new ModelTexture(Game.loader.loadTexture(entity.getSheet().texture)));
+		ModelTexture texture = model.getTexture();
 		/* texture specific */
-		if (texture != null) {
-			texture.setHasTransparency(entity.getSheet().transparency);
-			texture.setShineDamper(entity.getSheet().shineDamper);
-			texture.setReflectivity(entity.getSheet().reflectivity);
-			texture.setUseFakeLighting(entity.getSheet().useFakeLighting);
-		}
+		texture.setHasTransparency(entity.getSheet().transparency);
+		texture.setShineDamper(entity.getSheet().shineDamper);
+		texture.setReflectivity(entity.getSheet().reflectivity);
+		texture.setUseFakeLighting(entity.getSheet().useFakeLighting);
 		/**/
 		entity.setModel(model);
 		entity.setBoundingBox(boundingBox);
 		Handler.setGeometry(entity);
 	}
 
-	public static void loadAnimation(String FileName) {
-		if (!Handler.getLoadedAnimations().containsKey(FileName)) {
-			Animation animation = AnimationLoader.loadAnimation(FileName);
-			Handler.getLoadedAnimations().put(FileName, animation);
-		}
-	}
-
 	public static List<Vector3f> getAbsoluteVertices(Entity entity) {
 		RawModel boundingBox = entity.getBoundingBox();
 		List<Vector3f> absoluteVertices = new ArrayList<>();
 		if (boundingBox != null) {
-			Matrix4f transformationMatrix = Maths.createTransformationMatrix(entity.getPosition(), entity.getRotX(),
-					entity.getRotY(), entity.getRotZ(), entity.getScale());
+			Matrix4f transformationMatrix = Maths.createTransformationMatrix(entity.getPosition(), entity.getRotX(), entity.getRotY(), entity.getRotZ(), entity.getScale());
 			int i = 0;
 			for (Vector3f vertex : boundingBox.getVertices()) {
 				if (boundingBox.getJoints() != null) {
 					Vector3f finalPosition = new Vector3f();
 					Matrix4f[] jointTransforms = entity.getModel().getJointTransforms();
-					for (int j = 0; j < 3; j++) {
-						Matrix4f jointTransform = jointTransforms[boundingBox.getJointIndices().get((i * 3) + j)];
-						Float weight = boundingBox.getWeights().get((i * 3) + j);
-						finalPosition = Vector3f.add(finalPosition,
-								(Vector3f) Maths.transformVectorThroughMatrix(vertex, jointTransform).scale(weight),
-								null);
+					for(int j=0;j<3;j++){
+						Matrix4f jointTransform = jointTransforms[boundingBox.getJointIndices().get((i*3)+j)];
+						Float weight = boundingBox.getWeights().get((i*3)+j);
+						finalPosition = Vector3f.add(finalPosition, (Vector3f) Maths.transformVectorThroughMatrix(vertex, jointTransform).scale(weight), null);
 					}
 					vertex = finalPosition;
 				}
@@ -180,6 +160,8 @@ public class Handler {
 		Handler.player = new Player(playerSheet, new Vector3f(200, 0, 200), 0, 0, 0, 1);
 		assignModelToEntity(Handler.player);
 		Handler.player.pathfinder = new Pathfinder(Handler.player);
+		Animation animation = AnimationLoader.loadAnimation("model.dae");
+		player.getModel().doAnimation(animation);
 	}
 
 	public static void save(String roomName) {
@@ -225,13 +207,6 @@ public class Handler {
 			e.printStackTrace();
 		}
 		Game.running = true;
-		
-		EntitySheet pointerSheet = new EntitySheet();
-		pointerSheet.model = "bunny.obj";
-		pointerSheet.texture = "diffuse.png";
-		Handler.pointer = new Entity(pointerSheet, new Vector3f(200, 0, 200), 0, 0, 0, 0.1f);
-		assignModelToEntity(Handler.pointer);
-		Handler.addEntity(Handler.pointer);
 	}
 
 	public static void doForEachEntity(Consumer<Entity> function, String className) {
@@ -245,8 +220,8 @@ public class Handler {
 	}
 
 	public static void update() {
-
-		// process entities
+		
+		//process entities
 		Game.renderer.processTerrain(Handler.terrain);
 		Game.renderer.processEntity(Handler.player);
 
@@ -258,16 +233,16 @@ public class Handler {
 			}
 		};
 		Handler.doForEachEntity(processEntity, null);
-
-		// assign stuff
+		
+		//assign stuff
 		Handler.doForEachEntity((entity) -> {
 			if (entity.pathfinder == null) {
 				entity.pathfinder = new Pathfinder(entity);
 			}
 		}, "Person");
-
-		// update
-		Handler.player.update();
+		
+		//update
+		Handler.player.update();			
 		Consumer<Entity> update = (entity) -> {
 			entity.update();
 		};
@@ -295,8 +270,7 @@ public class Handler {
 
 	public static void setGeometry(Entity entity) {
 		List<Vector3f> absoluteVertices = Handler.getAbsoluteVertices(entity);
-		entity.setAbsoluteBoundingBox(Game.loader.generateBoundingBox(Game.loader.generateBoundaries(absoluteVertices),
-				entity.getAbsoluteBoundingBox()));
+		entity.setAbsoluteBoundingBox(Game.loader.generateBoundingBox(Game.loader.generateBoundaries(absoluteVertices), entity.getAbsoluteBoundingBox()));
 		List<Triangle> triangles = null;
 		if (entity.getClass().getSimpleName().equals("Floor")) {
 			triangles = Game.loader.generateNodes(absoluteVertices, entity);
@@ -311,8 +285,7 @@ public class Handler {
 	public static void refreshGeometry(Entity entity) {
 		List<Vector3f> absoluteVertices = Handler.getAbsoluteVertices(entity);
 		Game.loader.refreshBoundingBoxVertices(entity.getBoundingBox(), absoluteVertices);
-		entity.setAbsoluteBoundingBox(Game.loader.generateBoundingBox(Game.loader.generateBoundaries(absoluteVertices),
-				entity.getAbsoluteBoundingBox()));
+		entity.setAbsoluteBoundingBox(Game.loader.generateBoundingBox(Game.loader.generateBoundaries(absoluteVertices), entity.getAbsoluteBoundingBox()));
 		List<Triangle> triangles = Game.loader.generateTriangles(absoluteVertices, entity);
 		entity.setTriangles(triangles);
 	}

@@ -21,7 +21,7 @@ public class Entity implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	protected static final float MINIMUM_TERRAIN_HEIGHT = 0;
-	protected static final float GRAVITY = -100;
+	protected static final float GRAVITY = -300;
 	private static final float STEP = 100;
 	private Model model;
 
@@ -176,7 +176,7 @@ public class Entity implements Serializable {
 	public void setTrianglesToVerticesMap(Map<Vector3f, List<Triangle>> trianglesToVerticesMap) {
 		this.trianglesToVerticesMap = trianglesToVerticesMap;
 	}
-
+	
 	public RawModel getRawModel() {
 		if (this.getModel() != null) {
 			return this.getModel().getRawModel();
@@ -190,7 +190,7 @@ public class Entity implements Serializable {
 			this.getModel().setRawModel(rawModel);
 		}
 	}
-
+	
 	public RawModel getBoundingBox() {
 		if (this.getModel() != null) {
 			return this.getModel().getBoundingBox();
@@ -224,8 +224,7 @@ public class Entity implements Serializable {
 		this.floor = this.findFloor();
 		if (this.floor != null && this.floor.getTriangles() != null) {
 			List<Triangle> triangles = this.floor.getTriangles();
-			if (this.triangle != null && triangles.contains(this.triangle)
-					&& Collision.pointIn2DTriangle(position, this.triangle)) {
+			if (this.triangle != null && triangles.contains(this.triangle) && Collision.pointIn2DTriangle(position, this.triangle)) {
 				float height = Collision.heightFromCoordsInsideTriangle(position, this.triangle);
 				if (height < position.y + STEP) {
 					return height;
@@ -249,8 +248,7 @@ public class Entity implements Serializable {
 
 	public Floor findFloor() {
 		Vector3f position = this.getPosition();
-		if (this.floor != null && this.floor.getBoundingBox() != null
-				&& Collision.pointInAreaOfBoundingBox(position, this.floor)) {
+		if (this.floor != null && this.floor.getBoundingBox() != null && Collision.pointInAreaOfBoundingBox(position, this.floor)) {
 			return this.floor;
 		} else if (Handler.getEntities().get(Floor.class) != null) {
 			this.floor = null;
@@ -269,12 +267,12 @@ public class Entity implements Serializable {
 		}
 		return null;
 	}
-
+	
 	public Node getNode() {
 		Node node = (Node) this.triangle;
 		return node;
 	}
-
+	
 	public float getRadius() {
 		float radius = 0;
 		if (this.getBoundingBox() != null) {

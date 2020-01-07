@@ -52,8 +52,8 @@ public class StaticShader extends ShaderProgram {
 		location_skyColour = super.getUniformLocation("skyColour");
 		location_animated = super.getUniformLocation("animated");
 		location_jointTransforms = new int[MAX_JOINTS];
-		for (int i = 0; i < MAX_JOINTS; i++) {
-			location_jointTransforms[i] = super.getUniformLocation("jointTransforms[" + i + "]");
+		for (int i=0;i<MAX_JOINTS;i++) {
+			location_jointTransforms[i] = super.getUniformLocation("jointTransforms["+i+"]");
 		}
 	}
 
@@ -87,11 +87,11 @@ public class StaticShader extends ShaderProgram {
 	public void loadProjectionMatrix(Matrix4f projection) {
 		super.loadMatrix(location_projectionMatrix, projection);
 	}
-
+	
 	public void loadAnimated(boolean animated) {
 		super.loadBoolean(location_animated, animated);
 	}
-
+	
 	public void loadJointTransforms(Matrix4f[] matrices) {
 		super.loadMatrixArray(location_jointTransforms, matrices);
 	}

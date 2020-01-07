@@ -37,8 +37,7 @@ public class Loader {
 	private List<Integer> vbos = new ArrayList<Integer>();
 	private List<Integer> textures = new ArrayList<Integer>();
 
-	public RawModel loadToVAO(float[] positions, float[] textureCoords, float[] normals, int[] indices, int[] jointIds,
-			float[] vertexWeights) {
+	public RawModel loadToVAO(float[] positions, float[] textureCoords, float[] normals, int[] indices, int[] jointIds, float[] vertexWeights) {
 		int vaoID = createVAO();
 		int indicesVboID = bindIndicesBuffer(indices);
 		int verticesVboID = storeFloatDataInAttributeList(0, 3, positions);
@@ -95,8 +94,8 @@ public class Loader {
 		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
 		return vboID;
 	}
-
-	public int storeIntDataInAttributeList(int attributeNumber, int attrSize, int[] data) {
+	
+	public int storeIntDataInAttributeList(int attributeNumber, int attrSize, int[] data){	
 		int vboID = GL15.glGenBuffers();
 		vbos.add(vboID);
 		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, vboID);
@@ -133,8 +132,8 @@ public class Loader {
 		buffer.flip();
 		return buffer;
 	}
-
-	public IntBuffer storeData(int[] data) {
+	
+	public IntBuffer storeData(int[] data){
 		IntBuffer buffer = BufferUtils.createIntBuffer(data.length);
 		buffer.put(data);
 		buffer.flip();
@@ -151,7 +150,7 @@ public class Loader {
 
 		return vertices;
 	}
-
+	
 	private List<Integer> generateIndices(ModelData data) {
 		List<Integer> indices = new ArrayList<Integer>();
 
@@ -173,7 +172,7 @@ public class Loader {
 
 		return jointIndices;
 	}
-
+	
 	public List<Float> generateWeights(ModelData data) {
 		List<Float> weights = new ArrayList<Float>();
 
@@ -190,8 +189,7 @@ public class Loader {
 		List<Triangle> triangles = new ArrayList<Triangle>();
 
 		for (int i = 0; i < indices.size() / 3; i++) {
-			Triangle triangle = new Triangle(vertices.get(indices.get(i * 3)), vertices.get(indices.get(i * 3 + 1)),
-					vertices.get(indices.get(i * 3 + 2)));
+			Triangle triangle = new Triangle(vertices.get(indices.get(i * 3)), vertices.get(indices.get(i * 3 + 1)), vertices.get(indices.get(i * 3 + 2)));
 			triangles.add(triangle);
 		}
 
@@ -207,8 +205,7 @@ public class Loader {
 			float[] normals = data.getNormals();
 			for (int i = 0; i < indices.size() / 3; i++) {
 				boolean walkable = (boolean) (normals[indices.get(i * 3) * 3 + 1] >= 0);
-				Node node = new Node(vertices.get(indices.get(i * 3)), vertices.get(indices.get(i * 3 + 1)),
-						vertices.get(indices.get(i * 3 + 2)), entity, walkable);
+				Node node = new Node(vertices.get(indices.get(i * 3)), vertices.get(indices.get(i * 3 + 1)), vertices.get(indices.get(i * 3 + 2)), entity, walkable);
 				nodes.add(node);
 			}
 		} else {
@@ -216,8 +213,7 @@ public class Loader {
 			for (int i = 0; i < indices.size() / 3; i++) {
 				Node existingNode = (Node) existingNodes.get(i);
 				boolean walkable = existingNode.walkable;
-				Node node = new Node(vertices.get(indices.get(i * 3)), vertices.get(indices.get(i * 3 + 1)),
-						vertices.get(indices.get(i * 3 + 2)), entity, walkable);
+				Node node = new Node(vertices.get(indices.get(i * 3)), vertices.get(indices.get(i * 3 + 1)), vertices.get(indices.get(i * 3 + 2)), entity, walkable);
 				nodes.add(node);
 			}
 		}
@@ -277,7 +273,8 @@ public class Loader {
 		float minZ = boundaries.minZ;
 		float maxZ = boundaries.maxZ;
 
-		float[] boxVertices = { minX, minY, minZ, // 0
+		float[] boxVertices = {
+				minX, minY, minZ, // 0
 				minX, maxY, minZ, // 1
 				maxX, maxY, minZ, // 2
 				maxX, minY, minZ, // 3
@@ -299,10 +296,10 @@ public class Loader {
 				// top face
 				1, 5, 6, 1, 6, 2,
 				// bottom face
-				7, 4, 0, 3, 7, 0 };
+				7, 4, 0, 3, 7, 0
+		};
 
-		ModelData modelData = new ModelData(
-				new MeshData(boxVertices, new float[0], new float[0], boxIndices, new int[0], new float[0]), null);
+		ModelData modelData = new ModelData(new MeshData(boxVertices, new float[0], new float[0], boxIndices, new int[0], new float[0]), null);
 
 		RawModel rawModel = null;
 
@@ -330,7 +327,7 @@ public class Loader {
 			buffer.flip();
 			GL15.glBufferSubData(GL15.GL_ARRAY_BUFFER, 0, buffer);
 			GL20.glVertexAttribPointer(0, 3, GL11.GL_FLOAT, false, 0, 0);
-
+			
 			GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
 		}
 
@@ -342,18 +339,18 @@ public class Loader {
 
 		return rawModel;
 	}
-
+	
 	public void refreshBoundingBoxVertices(RawModel boundingBox, List<Vector3f> verticesList) {
-
+		
 		if (boundingBox != null) {
-
+			
 			float[] vertices = new float[verticesList.size() * 3];
-			for (int i = 0; i < verticesList.size(); i++) {
-				vertices[i * 3] = verticesList.get(i).x;
-				vertices[i * 3 + 1] = verticesList.get(i).y;
-				vertices[i * 3 + 2] = verticesList.get(i).z;
+			for (int i=0; i<verticesList.size(); i++) {
+				vertices[i*3] = verticesList.get(i).x;
+				vertices[i*3+1] = verticesList.get(i).y;
+				vertices[i*3+2] = verticesList.get(i).z;
 			}
-
+			
 			int vvboID = boundingBox.getVerticesVboID();
 			GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, vvboID);
 			FloatBuffer buffer = BufferUtils.createFloatBuffer(vertices.length);
@@ -367,8 +364,7 @@ public class Loader {
 	}
 
 	public RawModel loadBoundingBox(ModelData bbData) {
-		RawModel rawModel = this.loadToVAO(bbData.getVertices(), new float[0], new float[0], bbData.getIndices(),
-				bbData.getJointIndices(), bbData.getWeights());
+		RawModel rawModel = this.loadToVAO(bbData.getVertices(), new float[0], new float[0], bbData.getIndices(), bbData.getJointIndices(), bbData.getWeights());
 		rawModel.setVertices(generateVertices(bbData));
 		rawModel.setIndices(generateIndices(bbData));
 		rawModel.setWeights(generateWeights(bbData));
@@ -405,21 +401,21 @@ public class Loader {
 
 		return path;
 	}
-
+	
 	public ModelData loadModelDataFromFile(String fileName) {
 		String ext = fileName.substring(fileName.lastIndexOf(".") + 1);
 		ModelData data = null;
 		switch (ext) {
-		case "obj":
-			data = OBJFileLoader.loadOBJ(fileName);
-			break;
-		case "dae":
-			data = ColladaLoader.loadColladaModel(fileName, 3);
-			break;
-		default:
-			System.out.println("Unsupported file extension of file " + fileName);
-			System.exit(0);
-			break;
+			case "obj":
+				data = OBJFileLoader.loadOBJ(fileName);
+				break;
+			case "dae": 
+				data = ColladaLoader.loadColladaModel(fileName, 3);
+				break;
+			default:
+				System.out.println("Unsupported file extension of file "+fileName);
+				System.exit(0);
+				break;
 		}
 		return data;
 	}

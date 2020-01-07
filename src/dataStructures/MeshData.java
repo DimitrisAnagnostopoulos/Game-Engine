@@ -11,8 +11,7 @@ public class MeshData {
 	private int[] jointIds;
 	private float[] vertexWeights;
 
-	public MeshData(float[] vertices, float[] textureCoords, float[] normals, int[] indices, int[] jointIds,
-			float[] vertexWeights) {
+	public MeshData(float[] vertices, float[] textureCoords, float[] normals, int[] indices, int[] jointIds, float[] vertexWeights) {
 		this.vertices = vertices;
 		this.textureCoords = textureCoords;
 		this.normals = normals;
@@ -24,8 +23,8 @@ public class MeshData {
 	public int[] getJointIds() {
 		return jointIds;
 	}
-
-	public float[] getVertexWeights() {
+	
+	public float[] getVertexWeights(){
 		return vertexWeights;
 	}
 

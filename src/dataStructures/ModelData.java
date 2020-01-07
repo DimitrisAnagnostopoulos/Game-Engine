@@ -4,20 +4,20 @@ public class ModelData {
 
 	private final SkeletonData joints;
 	private final MeshData mesh;
-
-	public ModelData(MeshData mesh, SkeletonData joints) {
+	
+	public ModelData(MeshData mesh, SkeletonData joints){
 		this.joints = joints;
 		this.mesh = mesh;
 	}
-
-	public SkeletonData getJointsData() {
+	
+	public SkeletonData getJointsData(){
 		return joints;
 	}
-
-	public MeshData getMeshData() {
+	
+	public MeshData getMeshData(){
 		return mesh;
 	}
-
+	
 	public float[] getVertices() {
 		return mesh.getVertices();
 	}
@@ -49,5 +49,5 @@ public class ModelData {
 	public float[] getWeights() {
 		return mesh.getVertexWeights();
 	}
-
+	
 }

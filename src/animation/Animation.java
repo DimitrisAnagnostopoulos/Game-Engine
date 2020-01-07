@@ -2,7 +2,7 @@ package animation;
 
 public class Animation {
 
-	private final float length;// in seconds
+	private final float length;//in seconds
 	private final KeyFrame[] keyFrames;
 
 	public Animation(float lengthInSeconds, KeyFrame[] frames) {

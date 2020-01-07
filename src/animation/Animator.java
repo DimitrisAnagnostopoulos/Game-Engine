@@ -11,33 +11,18 @@ import models.Joint;
 
 public class Animator {
 
-	private final Model model;
+	private final Model entity;
 
 	private Animation currentAnimation;
-
-	private Map<String, Matrix4f> currentPose;
-
 	private float animationTime = 0;
 
-	public Animator(Model model) {
-		this.model = model;
-	}
-
-	public Animation getCurrentAnimation() {
-		return currentAnimation;
+	public Animator(Model entity) {
+		this.entity = entity;
 	}
 
 	public void doAnimation(Animation animation) {
 		this.animationTime = 0;
 		this.currentAnimation = animation;
-	}
-
-	public void stopAnimation() {
-		if (this.currentAnimation != null) {
-			this.animationTime = 0;
-			applyPoseToJoints(null, model.getRootJoint(), new Matrix4f());
-			this.currentAnimation = null;
-		}
 	}
 
 	public void update() {
@@ -46,7 +31,7 @@ public class Animator {
 		}
 		increaseAnimationTime();
 		Map<String, Matrix4f> currentPose = calculateCurrentAnimationPose();
-		applyPoseToJoints(currentPose, model.getRootJoint(), new Matrix4f());
+		applyPoseToJoints(currentPose, entity.getRootJoint(), new Matrix4f());
 	}
 
 	private void increaseAnimationTime() {
@@ -63,19 +48,12 @@ public class Animator {
 	}
 
 	private void applyPoseToJoints(Map<String, Matrix4f> currentPose, Joint joint, Matrix4f parentTransform) {
-		Matrix4f currentTransform = new Matrix4f();
-		if (currentPose == null) {
-			for (Joint childJoint : joint.children) {
-				applyPoseToJoints(currentPose, childJoint, new Matrix4f());
-			}
-		} else {
-			Matrix4f currentLocalTransform = currentPose.get(joint.name);
-			currentTransform = Matrix4f.mul(parentTransform, currentLocalTransform, null);
-			for (Joint childJoint : joint.children) {
-				applyPoseToJoints(currentPose, childJoint, currentTransform);
-			}
-			Matrix4f.mul(currentTransform, joint.getInverseBindTransform(), currentTransform);
+		Matrix4f currentLocalTransform = currentPose.get(joint.name);
+		Matrix4f currentTransform = Matrix4f.mul(parentTransform, currentLocalTransform, null);
+		for (Joint childJoint : joint.children) {
+			applyPoseToJoints(currentPose, childJoint, currentTransform);
 		}
+		Matrix4f.mul(currentTransform, joint.getInverseBindTransform(), currentTransform);
 		joint.setAnimationTransform(currentTransform);
 	}
 
@@ -107,11 +85,6 @@ public class Animator {
 			JointTransform currentTransform = JointTransform.interpolate(previousTransform, nextTransform, progression);
 			currentPose.put(jointName, currentTransform.getLocalTransform());
 		}
-		this.currentPose = currentPose;
-		return currentPose;
-	}
-
-	public Map<String, Matrix4f> getCurrentPose() {
 		return currentPose;
 	}
 

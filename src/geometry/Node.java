@@ -57,14 +57,11 @@ public class Node extends Triangle implements Comparable {
 			// gather the nodes that share at least two vertices with our node
 			for (Triangle triangle : floor.getTrianglesToVerticesMap().get(vertex)) {
 				Node node = (Node) triangle;
-				if (triangle == this || node.walkable == false)
-					continue;
+				if (triangle == this || node.walkable == false) continue;
 				List<Vector3f> common = new ArrayList<Vector3f>(this.vertices);
 				common.retainAll(node.vertices);
-				if (common.size() >= 2 && neighbors.contains(triangle) == false)
-					neighbors.add((Node) node);
-				if (neighbors.size() >= 3)
-					break outerLoop;
+				if (common.size() >= 2 && neighbors.contains(triangle) == false) neighbors.add((Node) node);
+				if (neighbors.size() >= 3) break outerLoop;
 			}
 		}
 		return neighbors;

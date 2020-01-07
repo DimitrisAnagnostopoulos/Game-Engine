@@ -86,11 +86,11 @@ public class Editor {
 	private Entity selectedEntity;
 
 	/*
-	 * public static void main(String[] args) { EventQueue.invokeLater(new
-	 * Runnable() { public void run() { try { Editor window = new Editor();
-	 * window.frame.setVisible(true); } catch (Exception e) {
-	 * e.printStackTrace(); } } }); }
-	 */
+	public static void main(String[] args) { EventQueue.invokeLater(new
+	Runnable() { public void run() { try { Editor window = new Editor();
+	window.frame.setVisible(true); } catch (Exception e) { e.printStackTrace();
+	} } }); }
+	*/
 
 	public Editor() {
 		initialize();
@@ -267,24 +267,21 @@ public class Editor {
 							Entity entity = null;
 							switch (entitySheet.getClass().getName()) {
 							case "entitySheets.PersonSheet":
-								entity = new Person((PersonSheet) entitySheet, new Vector3f(pos_x, pos_y, pos_z), rot_x,
-										rot_y, rot_z, scale);
+								entity = new Person((PersonSheet) entitySheet, new Vector3f(pos_x, pos_y, pos_z), rot_x, rot_y, rot_z, scale);
 								break;
 							case "entitySheets.ItemSheet":
-								entity = new Item((ItemSheet) entitySheet, new Vector3f(pos_x, pos_y, pos_z), rot_x,
-										rot_y, rot_z, scale);
+								entity = new Item((ItemSheet) entitySheet, new Vector3f(pos_x, pos_y, pos_z), rot_x, rot_y, rot_z, scale);
 								break;
 							case "entitySheets.ScenerySheet":
-								entity = new Scenery((ScenerySheet) entitySheet, new Vector3f(pos_x, pos_y, pos_z),
-										rot_x, rot_y, rot_z, scale);
+								entity = new Scenery((ScenerySheet) entitySheet, new Vector3f(pos_x, pos_y, pos_z), rot_x, rot_y, rot_z, scale);
 								break;
 							case "entitySheets.FloorSheet":
-								entity = new Floor((FloorSheet) entitySheet, new Vector3f(pos_x, pos_y, pos_z), rot_x,
-										rot_y, rot_z, scale);
+								entity = new Floor((FloorSheet) entitySheet, new Vector3f(pos_x, pos_y, pos_z), rot_x, rot_y, rot_z, scale);
 								break;
 							}
 							selectedEntity = entity;
 							Handler.addEntity(entity);
+							;
 						}
 					}
 				}
@@ -315,113 +312,54 @@ public class Editor {
 		});
 
 		GroupLayout gl_world_editor = new GroupLayout(world_editor);
-		gl_world_editor.setHorizontalGroup(gl_world_editor.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_world_editor.createSequentialGroup()
-						.addGroup(gl_world_editor.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_world_editor.createSequentialGroup().addGap(6)
-										.addGroup(gl_world_editor.createParallelGroup(Alignment.LEADING)
-												.addComponent(objects_tree, GroupLayout.PREFERRED_SIZE, 473,
-														GroupLayout.PREFERRED_SIZE)
-												.addComponent(object_tree_refresh).addComponent(separator_1,
-														GroupLayout.PREFERRED_SIZE, 473, GroupLayout.PREFERRED_SIZE)))
-								.addGroup(gl_world_editor.createSequentialGroup().addContainerGap()
-										.addComponent(lblPosition))
-								.addGroup(gl_world_editor.createSequentialGroup().addContainerGap()
-										.addComponent(lblRotation))
-								.addGroup(gl_world_editor.createSequentialGroup().addContainerGap().addComponent(lblX)
-										.addGap(6)
-										.addComponent(spinner_pos_x, GroupLayout.PREFERRED_SIZE, 99,
-												GroupLayout.PREFERRED_SIZE)
-										.addPreferredGap(ComponentPlacement.RELATED).addComponent(lblY)
-										.addPreferredGap(ComponentPlacement.RELATED)
-										.addComponent(spinner_pos_y, GroupLayout.PREFERRED_SIZE, 99,
-												GroupLayout.PREFERRED_SIZE)
-										.addPreferredGap(ComponentPlacement.RELATED).addComponent(lblZ)
-										.addPreferredGap(ComponentPlacement.RELATED).addComponent(spinner_pos_z,
-												GroupLayout.PREFERRED_SIZE, 99, GroupLayout.PREFERRED_SIZE))
-								.addGroup(gl_world_editor.createSequentialGroup().addContainerGap()
-										.addComponent(save_room_button).addPreferredGap(ComponentPlacement.RELATED)
-										.addComponent(load_room_button).addPreferredGap(ComponentPlacement.RELATED)
-										.addComponent(clear_room_button))
-								.addGroup(gl_world_editor.createSequentialGroup().addContainerGap().addComponent(
-										separator, GroupLayout.PREFERRED_SIZE, 473, GroupLayout.PREFERRED_SIZE))
-								.addGroup(gl_world_editor.createSequentialGroup().addContainerGap()
-										.addComponent(add_to_scene_button))
-								.addGroup(gl_world_editor.createSequentialGroup().addContainerGap().addComponent(
-										separator_2, GroupLayout.PREFERRED_SIZE, 473, GroupLayout.PREFERRED_SIZE))
-								.addGroup(gl_world_editor.createSequentialGroup().addContainerGap()
-										.addGroup(gl_world_editor.createParallelGroup(Alignment.LEADING)
-												.addComponent(lblY_1, GroupLayout.PREFERRED_SIZE, 13,
-														GroupLayout.PREFERRED_SIZE)
-												.addComponent(lblScale).addComponent(lblZ_1).addComponent(lblX_1))
-										.addPreferredGap(ComponentPlacement.UNRELATED)
-										.addGroup(gl_world_editor.createParallelGroup(Alignment.LEADING)
-												.addComponent(slider_rot_x, Alignment.TRAILING,
-														GroupLayout.DEFAULT_SIZE, 422, Short.MAX_VALUE)
-												.addComponent(slider_scale, Alignment.TRAILING,
-														GroupLayout.DEFAULT_SIZE, 422, Short.MAX_VALUE)
-												.addComponent(slider_rot_y, GroupLayout.DEFAULT_SIZE, 422,
-														Short.MAX_VALUE)
-												.addComponent(slider_rot_z, GroupLayout.DEFAULT_SIZE, 422,
-														Short.MAX_VALUE))))
-						.addContainerGap()));
 		gl_world_editor
-				.setVerticalGroup(
-						gl_world_editor.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_world_editor.createSequentialGroup().addGap(6)
-										.addComponent(objects_tree, GroupLayout.PREFERRED_SIZE, 300,
-												GroupLayout.PREFERRED_SIZE)
-										.addGap(6).addComponent(object_tree_refresh).addGap(6)
-										.addComponent(separator_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-												GroupLayout.PREFERRED_SIZE)
-										.addPreferredGap(ComponentPlacement.RELATED).addComponent(lblPosition)
-										.addPreferredGap(ComponentPlacement.UNRELATED)
-										.addGroup(gl_world_editor.createParallelGroup(Alignment.LEADING)
-												.addComponent(lblY).addGroup(gl_world_editor
-														.createSequentialGroup().addGroup(gl_world_editor
-																.createParallelGroup(Alignment.TRAILING, false)
-																.addComponent(lblX, GroupLayout.DEFAULT_SIZE,
-																		GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-																.addComponent(lblZ, GroupLayout.DEFAULT_SIZE,
-																		GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-																.addComponent(spinner_pos_x, Alignment.LEADING,
-																		GroupLayout.DEFAULT_SIZE, 27, Short.MAX_VALUE)
-																.addComponent(spinner_pos_y, Alignment.LEADING)
-																.addComponent(spinner_pos_z, Alignment.LEADING))
-														.addPreferredGap(ComponentPlacement.UNRELATED)
-														.addComponent(lblRotation)))
-										.addGap(18)
-										.addGroup(gl_world_editor.createParallelGroup(Alignment.LEADING)
-												.addComponent(slider_rot_x, GroupLayout.PREFERRED_SIZE,
-														GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-												.addComponent(lblX_1))
-										.addPreferredGap(ComponentPlacement.RELATED)
-										.addGroup(gl_world_editor.createParallelGroup(Alignment.LEADING)
-												.addComponent(lblY_1).addComponent(slider_rot_y,
-														GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-														GroupLayout.PREFERRED_SIZE))
-										.addPreferredGap(ComponentPlacement.RELATED)
-										.addGroup(gl_world_editor.createParallelGroup(Alignment.LEADING)
-												.addComponent(lblZ_1).addComponent(slider_rot_z,
-														GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-														GroupLayout.PREFERRED_SIZE))
-										.addPreferredGap(ComponentPlacement.UNRELATED)
-										.addGroup(gl_world_editor.createParallelGroup(Alignment.LEADING)
-												.addComponent(lblScale).addComponent(slider_scale,
-														GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-														GroupLayout.PREFERRED_SIZE))
-										.addGap(248)
-										.addComponent(separator_2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-												GroupLayout.PREFERRED_SIZE)
-										.addPreferredGap(ComponentPlacement.RELATED).addComponent(add_to_scene_button)
-										.addPreferredGap(ComponentPlacement.RELATED)
-										.addComponent(separator, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-												GroupLayout.PREFERRED_SIZE)
-										.addPreferredGap(ComponentPlacement.RELATED)
-										.addGroup(gl_world_editor.createParallelGroup(Alignment.BASELINE)
-												.addComponent(save_room_button).addComponent(load_room_button)
-												.addComponent(clear_room_button))
-										.addGap(74)));
+				.setHorizontalGroup(
+						gl_world_editor
+								.createParallelGroup(
+										Alignment.LEADING)
+								.addGroup(
+										gl_world_editor.createSequentialGroup()
+												.addGroup(
+														gl_world_editor.createParallelGroup(Alignment.LEADING)
+																.addGroup(gl_world_editor.createSequentialGroup().addGap(6)
+																		.addGroup(gl_world_editor.createParallelGroup(Alignment.LEADING).addComponent(objects_tree, GroupLayout.PREFERRED_SIZE, 473, GroupLayout.PREFERRED_SIZE).addComponent(object_tree_refresh)
+																				.addComponent(separator_1, GroupLayout.PREFERRED_SIZE, 473, GroupLayout.PREFERRED_SIZE)))
+																.addGroup(gl_world_editor.createSequentialGroup().addContainerGap().addComponent(lblPosition)).addGroup(gl_world_editor.createSequentialGroup().addContainerGap().addComponent(lblRotation))
+																.addGroup(gl_world_editor.createSequentialGroup().addContainerGap().addComponent(lblX).addGap(6).addComponent(spinner_pos_x, GroupLayout.PREFERRED_SIZE, 99, GroupLayout.PREFERRED_SIZE)
+																		.addPreferredGap(ComponentPlacement.RELATED).addComponent(lblY).addPreferredGap(ComponentPlacement.RELATED).addComponent(spinner_pos_y, GroupLayout.PREFERRED_SIZE, 99, GroupLayout.PREFERRED_SIZE)
+																		.addPreferredGap(ComponentPlacement.RELATED).addComponent(lblZ).addPreferredGap(ComponentPlacement.RELATED).addComponent(spinner_pos_z, GroupLayout.PREFERRED_SIZE, 99, GroupLayout.PREFERRED_SIZE))
+																.addGroup(gl_world_editor.createSequentialGroup().addContainerGap().addComponent(save_room_button).addPreferredGap(ComponentPlacement.RELATED).addComponent(load_room_button)
+																		.addPreferredGap(ComponentPlacement.RELATED).addComponent(clear_room_button))
+																.addGroup(gl_world_editor.createSequentialGroup().addContainerGap().addComponent(separator, GroupLayout.PREFERRED_SIZE, 473, GroupLayout.PREFERRED_SIZE))
+																.addGroup(gl_world_editor.createSequentialGroup().addContainerGap().addComponent(add_to_scene_button))
+																.addGroup(gl_world_editor.createSequentialGroup().addContainerGap().addComponent(separator_2, GroupLayout.PREFERRED_SIZE, 473, GroupLayout.PREFERRED_SIZE))
+																.addGroup(gl_world_editor.createSequentialGroup().addContainerGap()
+																		.addGroup(gl_world_editor.createParallelGroup(Alignment.LEADING).addComponent(lblY_1, GroupLayout.PREFERRED_SIZE, 13, GroupLayout.PREFERRED_SIZE).addComponent(lblScale).addComponent(lblZ_1)
+																				.addComponent(lblX_1))
+																		.addPreferredGap(ComponentPlacement.UNRELATED)
+																		.addGroup(gl_world_editor.createParallelGroup(Alignment.LEADING).addComponent(slider_rot_x, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 422, Short.MAX_VALUE)
+																				.addComponent(slider_scale, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 422, Short.MAX_VALUE).addComponent(slider_rot_y, GroupLayout.DEFAULT_SIZE, 422, Short.MAX_VALUE).addComponent(slider_rot_z,
+																						GroupLayout.DEFAULT_SIZE, 422, Short.MAX_VALUE))))
+												.addContainerGap()));
+		gl_world_editor.setVerticalGroup(gl_world_editor.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_world_editor.createSequentialGroup().addGap(6).addComponent(objects_tree, GroupLayout.PREFERRED_SIZE, 300, GroupLayout.PREFERRED_SIZE).addGap(6).addComponent(object_tree_refresh).addGap(6)
+						.addComponent(separator_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE).addPreferredGap(ComponentPlacement.RELATED).addComponent(lblPosition).addPreferredGap(ComponentPlacement.UNRELATED)
+						.addGroup(gl_world_editor.createParallelGroup(Alignment.LEADING).addComponent(lblY)
+								.addGroup(gl_world_editor.createSequentialGroup()
+										.addGroup(gl_world_editor.createParallelGroup(Alignment.TRAILING, false).addComponent(lblX, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+												.addComponent(lblZ, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE).addComponent(spinner_pos_x, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 27, Short.MAX_VALUE)
+												.addComponent(spinner_pos_y, Alignment.LEADING).addComponent(spinner_pos_z, Alignment.LEADING))
+										.addPreferredGap(ComponentPlacement.UNRELATED).addComponent(lblRotation)))
+						.addGap(18).addGroup(gl_world_editor.createParallelGroup(Alignment.LEADING).addComponent(slider_rot_x, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE).addComponent(lblX_1))
+						.addPreferredGap(ComponentPlacement.RELATED)
+						.addGroup(gl_world_editor.createParallelGroup(Alignment.LEADING).addComponent(lblY_1).addComponent(slider_rot_y, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addPreferredGap(ComponentPlacement.RELATED)
+						.addGroup(gl_world_editor.createParallelGroup(Alignment.LEADING).addComponent(lblZ_1).addComponent(slider_rot_z, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addPreferredGap(ComponentPlacement.UNRELATED)
+						.addGroup(gl_world_editor.createParallelGroup(Alignment.LEADING).addComponent(lblScale).addComponent(slider_scale, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)).addGap(248)
+						.addComponent(separator_2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE).addPreferredGap(ComponentPlacement.RELATED).addComponent(add_to_scene_button)
+						.addPreferredGap(ComponentPlacement.RELATED).addComponent(separator, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE).addPreferredGap(ComponentPlacement.RELATED)
+						.addGroup(gl_world_editor.createParallelGroup(Alignment.BASELINE).addComponent(save_room_button).addComponent(load_room_button).addComponent(clear_room_button)).addGap(74)));
 		world_editor.setLayout(gl_world_editor);
 
 		JPanel object_editor = new JPanel();
@@ -479,8 +417,7 @@ public class Editor {
 					selectedFile = fileChooser.getSelectedFile();
 					try {
 						loadEntity(propertyTable, selectedFile);
-						object_name_label
-								.setText(selectedFile.getName().substring(0, selectedFile.getName().lastIndexOf(".")));
+						object_name_label.setText(selectedFile.getName().substring(0, selectedFile.getName().lastIndexOf(".")));
 					} catch (SAXException | IOException | ParserConfigurationException e) {
 						e.printStackTrace();
 					}
@@ -507,8 +444,7 @@ public class Editor {
 				create_entity_confirm_button.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent ae) {
 						try {
-							selectedFile = createEntity(create_entity_combobox.getSelectedItem().toString(),
-									create_entity_name.getText());
+							selectedFile = createEntity(create_entity_combobox.getSelectedItem().toString(), create_entity_name.getText());
 							object_name_label.setText(create_entity_name.getText());
 							loadEntity(propertyTable, selectedFile);
 						} catch (JAXBException | SAXException | IOException | ParserConfigurationException e) {
@@ -569,8 +505,7 @@ public class Editor {
 		return file;
 	}
 
-	private void saveEntity(String entityType, JTable table, File file)
-			throws IOException, TransformerException, ParserConfigurationException {
+	private void saveEntity(String entityType, JTable table, File file) throws IOException, TransformerException, ParserConfigurationException {
 		Document dom;
 		Element e = null;
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();

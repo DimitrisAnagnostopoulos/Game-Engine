@@ -85,9 +85,9 @@ public abstract class ShaderProgram {
 		matrixBuffer.flip();
 		GL20.glUniformMatrix4(location, false, matrixBuffer);
 	}
-
-	protected void loadMatrixArray(int[] location_jointTransforms, Matrix4f[] matrices) {
-		for (int i = 0; i < matrices.length; i++) {
+	
+	protected void loadMatrixArray(int[] location_jointTransforms,  Matrix4f[] matrices) {
+		for(int i=0;i<matrices.length;i++){
 			loadMatrix(location_jointTransforms[i], matrices[i]);
 		}
 	}

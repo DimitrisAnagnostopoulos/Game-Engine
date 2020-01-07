@@ -4,7 +4,7 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 
 public class OpenGlUtils {
-
+	
 	private static boolean cullingBackFace = false;
 	private static boolean inWireframe = false;
 	private static boolean isAlphaBlending = false;
@@ -47,12 +47,12 @@ public class OpenGlUtils {
 			additiveBlending = false;
 		}
 	}
-
-	public static void enableDepthTesting(boolean enable) {
-		if (enable && !depthTesting) {
+	
+	public static void enableDepthTesting(boolean enable){
+		if(enable && !depthTesting){
 			GL11.glEnable(GL11.GL_DEPTH_TEST);
 			depthTesting = true;
-		} else if (!enable && depthTesting) {
+		}else if(!enable && depthTesting){
 			GL11.glDisable(GL11.GL_DEPTH_TEST);
 			depthTesting = false;
 		}

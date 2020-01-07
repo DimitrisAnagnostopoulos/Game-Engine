@@ -66,8 +66,7 @@ public class BasicRenderer {
 
 				}
 			}
-			if (!MasterRenderer.wireframe)
-				OpenGlUtils.goWireframe(false);
+			if (!MasterRenderer.wireframe) OpenGlUtils.goWireframe(false);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

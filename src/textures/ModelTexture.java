@@ -50,7 +50,7 @@ public class ModelTexture {
 	public void setReflectivity(float reflectivity) {
 		this.reflectivity = reflectivity;
 	}
-
+	
 	public void delete() {
 		GL11.glDeleteTextures(textureID);
 	}
