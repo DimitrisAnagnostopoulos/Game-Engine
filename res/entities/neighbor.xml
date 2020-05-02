@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<person>
+    <name>neighbor</name>
+    <model></model>
+    <boundingBox></boundingBox>
+    <texture></texture>
+    <transparency>false</transparency>
+    <useFakeLighting>false</useFakeLighting>
+    <shineDamper>10.0</shineDamper>
+    <reflectivity>0.2</reflectivity>
+</person>

@@ -49,11 +49,13 @@ public class Player extends Entity implements Serializable, Collidable {
 		eRadius.x = (b.maxX - b.minX) / 2;
 		eRadius.y = (b.maxY - b.minY) / 2;
 		eRadius.z = (b.maxZ - b.minZ) / 2;
+		Collision.stuck = false;
+		Collision.collidedAtAnyPoint = false;
 		this.setPosition(collideAndSlide(this.getPosition(), this.getVelocity()));
-		this.getBoundingBox().basicColour = Collision.foundCollision ? new Vector3f(100, 0, 0) : null;
-		if (Collision.lastSafePosition != null) {
-			Vector3f lp = Collision.lastSafePosition;
-			Handler.pointer.setPosition(new Vector3f(lp.x * eRadius.x, lp.y * eRadius.y, lp.z * eRadius.z));
+		if (Collision.stuck || (Collision.collidedAtAnyPoint && this.getPosition().getY() < terrainHeight - 0.1f)) {
+			this.setPosition(Collision.lastSafePosition);
+		} else {
+			Collision.lastSafePosition = this.getPosition();
 		}
 		
 		Handler.refreshGeometry(this);
@@ -69,7 +71,7 @@ public class Player extends Entity implements Serializable, Collidable {
 	private void checkInputs() {
 		if (Keyboard.isKeyDown(Keyboard.KEY_W)) {
 			this.setCurrentSpeed(RUN_SPEED);
-			//this.getModel().doAnimation("model.dae");
+			this.getModel().doAnimation("model.dae");
 		} else if (Keyboard.isKeyDown(Keyboard.KEY_S)) {
 			this.setCurrentSpeed(-RUN_SPEED);
 		} else {

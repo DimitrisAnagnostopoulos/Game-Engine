@@ -3,6 +3,7 @@ package renderEngine;
 import models.RawModel;
 import models.Model;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -31,17 +32,33 @@ public class EntityRenderer {
 
 	public void render(Map<Model, List<Entity>> entities) {
 		for (Model model : entities.keySet()) {
-			prepareTexturedModel(model);
-			List<Entity> batch = entities.get(model);
-			for (Entity entity : batch) {
-				prepareInstance(entity);
-				GL11.glDrawElements(GL11.GL_TRIANGLES, model.getRawModel().getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
+			int[] materialChangeIndices = model.getRawModel().getMaterialChangeIndices();
+			int totalCount = model.getRawModel().getVertexCount();
+			if (materialChangeIndices == null || materialChangeIndices.length == 0) materialChangeIndices = new int[]{0};
+			if (materialChangeIndices.length > 1) System.out.println(" totalCount "+totalCount+" changes "+Arrays.toString(materialChangeIndices));
+			for (int i = 0; i < materialChangeIndices.length; i++) {
+				int offset = materialChangeIndices[i];
+				int count = 0;
+				if (i+1 < materialChangeIndices.length) {
+					count = materialChangeIndices[i+1] - materialChangeIndices[i];
+				} else if (totalCount > materialChangeIndices[i]) {
+					count = totalCount - materialChangeIndices[i];
+				} else {
+					continue;
+				}
+				if (materialChangeIndices.length > 1) System.out.println("i: "+i+" count "+count+" offset "+offset);
+				prepareTexturedModel(model, i);
+				List<Entity> batch = entities.get(model);
+				for (Entity entity : batch) {
+					prepareInstance(entity);
+					GL11.glDrawElements(GL11.GL_TRIANGLES, count, GL11.GL_UNSIGNED_INT, offset * 4);
+				}
+				unbindTexturedModel();
 			}
-			unbindTexturedModel();
 		}
 	}
 
-	private void prepareTexturedModel(Model model) {
+	private void prepareTexturedModel(Model model, int i) {
 		RawModel rawModel = model.getRawModel();
 		GL30.glBindVertexArray(rawModel.getVaoID());
 		GL20.glEnableVertexAttribArray(0);
@@ -56,7 +73,10 @@ public class EntityRenderer {
 		shader.loadFakeLightingVariable(texture.isUseFakeLighting());
 		shader.loadShineVariables(texture.getShineDamper(), texture.getReflectivity());
 		GL13.glActiveTexture(GL13.GL_TEXTURE0);
-		GL11.glBindTexture(GL11.GL_TEXTURE_2D, model.getTexture().getID());
+		int textureID = model.getTexture().getID();
+		//System.out.println(textureID);
+		if (i >= 1) textureID = 6;
+		GL11.glBindTexture(GL11.GL_TEXTURE_2D, textureID);
 		if (model.getRawModel().getJoints() != null) {
 			shader.loadJointTransforms(model.getJointTransforms());
 			shader.loadAnimated(true);

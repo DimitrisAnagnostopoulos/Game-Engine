@@ -15,6 +15,7 @@ public class RawModel {
 	private int vertexCount;
 	private List<Vector3f> vertices = new ArrayList<Vector3f>();
 	private List<Integer> indices = new ArrayList<Integer>();
+	private int[] materialChangeIndices;
 	private List<Float> weights = new ArrayList<Float>();
 	private List<Integer> jointIndices = new ArrayList<Integer>();
 	private Boundaries boundaries;
@@ -76,6 +77,16 @@ public class RawModel {
 
 	public void setIndices(List<Integer> indices) {
 		this.indices = indices;
+	}
+	
+	public int[] getMaterialChangeIndices()
+	{
+		return materialChangeIndices;
+	}
+
+	public void setMaterialChangeIndices(int[] materialChangeIndices)
+	{
+		this.materialChangeIndices = materialChangeIndices;
 	}
 
 	public List<Float> getWeights() {

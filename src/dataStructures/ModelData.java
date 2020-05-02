@@ -33,6 +33,11 @@ public class ModelData {
 	public int[] getIndices() {
 		return mesh.getIndices();
 	}
+	
+	public int[] getMaterialChangeIndices()
+	{
+		return mesh.getMaterialChangeIndices();
+	}
 
 	public int[] getJointIds() {
 		return mesh.getJointIds();

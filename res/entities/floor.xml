@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<floor>
+<name>floor</name>
+<model>floor</model>
+<boundingBox>floor</boundingBox>
+<texture>white</texture>
+<transparency>false</transparency>
+<useFakeLighting>false</useFakeLighting>
+<shineDamper>10.0</shineDamper>
+<reflectivity>0.2</reflectivity>
+</floor>

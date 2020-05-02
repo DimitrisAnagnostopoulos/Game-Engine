@@ -26,6 +26,7 @@ public class GeometryLoader {
 	private float[] normalsArray;
 	private float[] texturesArray;
 	private int[] indicesArray;
+	private int[] materialChangeIndicesArray;
 	private int[] jointIdsArray;
 	private float[] weightsArray;
 
@@ -33,6 +34,7 @@ public class GeometryLoader {
 	List<Vector2f> textures = new ArrayList<Vector2f>();
 	List<Vector3f> normals = new ArrayList<Vector3f>();
 	List<Integer> indices = new ArrayList<Integer>();
+	List<Integer> materialChangeIndices = new ArrayList<Integer>();
 
 	public GeometryLoader(XmlNode geometryNode, List<VertexSkinData> vertexWeights) {
 		this.vertexWeights = vertexWeights;
@@ -46,13 +48,26 @@ public class GeometryLoader {
 		initArrays();
 		convertDataToArrays();
 		convertIndicesListToArray();
-		return new MeshData(verticesArray, texturesArray, normalsArray, indicesArray, jointIdsArray, weightsArray);
+		convertMaterialChangeIndicesListToArray();
+		return new MeshData(verticesArray, texturesArray, normalsArray, indicesArray, materialChangeIndicesArray, jointIdsArray, weightsArray);
 	}
 
 	private void readRawData() {
 		readPositions();
 		readNormals();
 		readTextureCoords();
+		readmaterialChangeIndices();
+	}
+	
+	private void readmaterialChangeIndices() {
+		List<XmlNode> triangles = meshData.getChild("polylist").getChildren("triangles");
+		if (!triangles.isEmpty()) {
+			int index = 0;
+			for(XmlNode triangle : triangles) {
+				index += Integer.parseInt(triangle.getAttribute("count"));
+				materialChangeIndices.add(index);
+			}
+		}
 	}
 
 	private void readPositions() {
@@ -130,6 +145,14 @@ public class GeometryLoader {
 			indicesArray[i] = indices.get(i);
 		}
 		return indicesArray;
+	}
+	
+	private int[] convertMaterialChangeIndicesListToArray() {
+		this.materialChangeIndicesArray = new int[materialChangeIndices.size()];
+		for (int i = 0; i < materialChangeIndicesArray.length; i++) {
+			materialChangeIndicesArray[i] = materialChangeIndices.get(i);
+		}
+		return materialChangeIndicesArray;
 	}
 
 	private float convertDataToArrays() {

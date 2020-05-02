@@ -74,7 +74,7 @@ public class Maths {
 		return -(numer / denom);	
 	}
 	
-	public static float plane_dist(Vector3f planeOrigin, Vector3f planeNormal, Vector3f point){
+	public static float _plane_dist(Vector3f planeOrigin, Vector3f planeNormal, Vector3f point){
 		float    sb, sn, sd;
 	
 		sn = -Vector3f.dot(planeNormal, Vector3f.sub(point, planeOrigin, null));
@@ -83,6 +83,10 @@ public class Maths {
 	
 		Vector3f B = Vector3f.add(point, (Vector3f) planeNormal.scale(sb), null);
 		return Vector3f.sub(point, B, null).length();
+	}
+	
+	public static float plane_dist(Vector3f planeOrigin, Vector3f planeNormal, Vector3f point){
+		return (Vector3f.dot(point, planeNormal)) - (planeNormal.x * planeOrigin.x + planeNormal.y * planeOrigin.y + planeNormal.z * planeOrigin.z);
 	}
 
 	public static float intersectRaySphere(Vector3f rO, Vector3f rV, Vector3f sO, float sR) {
@@ -100,7 +104,28 @@ public class Maths {
 		return (float) (v - Math.sqrt(d));
 	}
 
-	public static boolean _CheckPointInTriangle(Vector3f point, Vector3f a, Vector3f b, Vector3f c) {
+	public static boolean _CheckPointInTriangle(Vector3f point, Vector3f pa, Vector3f pb, Vector3f pc) {
+
+		Vector3f e10 = Vector3f.sub(pb, pa, null);
+		Vector3f e20 = Vector3f.sub(pc, pa, null);
+		Vector3f vp = Vector3f.sub(point, pa, null);
+
+		// Compute dot products
+		float a = Vector3f.dot(e10, e10);
+		float b = Vector3f.dot(e10, e20);
+		float c = Vector3f.dot(e20, e20);
+		float d = Vector3f.dot(vp, e10);
+		float e = Vector3f.dot(vp, e20);
+
+		// Compute barycentric coordinates
+		float ac_bb = (a * c) - (b * b);
+		float x = (d * c) - (e * b);
+		float y = (e * a) - (d * b);
+		float z = x + y - ac_bb;
+		return z < 0 && x >= 0 && y >= 0;
+	}
+	
+	public static boolean CheckPointInTriangle(Vector3f point, Vector3f a, Vector3f b, Vector3f c) {
 
 		float total_angles = 0.0f;
 	
@@ -121,27 +146,6 @@ public class Maths {
 		return (true);
 	
 		return (false);
-	}
-	
-	public static boolean CheckPointInTriangle(Vector3f point, Vector3f pa, Vector3f pb, Vector3f pc) {
-
-		Vector3f e10 = Vector3f.sub(pb, pa, null);
-		Vector3f e20 = Vector3f.sub(pc, pa, null);
-		Vector3f vp = Vector3f.sub(point, pa, null);
-
-		// Compute dot products
-		float a = Vector3f.dot(e10, e10);
-		float b = Vector3f.dot(e10, e20);
-		float c = Vector3f.dot(e20, e20);
-		float d = Vector3f.dot(vp, e10);
-		float e = Vector3f.dot(vp, e20);
-
-		// Compute barycentric coordinates
-		float ac_bb = (a * c) - (b * b);
-		float x = (d * c) - (e * b);
-		float y = (e * a) - (d * b);
-		float z = x + y - ac_bb;
-		return z < 0.005 && x >= -0.005 && y >= -0.005;
 	}
 
 	public static Vector3f closestPointOnLine(Vector3f a, Vector3f b, Vector3f p) {
@@ -202,9 +206,9 @@ public class Maths {
 
 		if(d<= sR) return true;
 			return false;	
-		}
+	}
 	
-		Vector3f tangentPlaneNormalOfEllipsoid(Vector3f point, Vector3f eO, Vector3f eR) {
+	Vector3f tangentPlaneNormalOfEllipsoid(Vector3f point, Vector3f eO, Vector3f eR) {
 	
 		Vector3f p = Vector3f.sub(point, eO, null);
 	

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<scenery>
+<name>block</name>
+<model>block.obj</model>
+<boundingBox>block.obj</boundingBox>
+<texture>white.png</texture>
+<transparency>false</transparency>
+<useFakeLighting>false</useFakeLighting>
+<shineDamper>10.0</shineDamper>
+<reflectivity>0.2</reflectivity>
+</scenery>

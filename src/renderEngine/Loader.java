@@ -59,7 +59,7 @@ public class Loader {
 			texture = TextureLoader.getTexture("PNG", new FileInputStream("res/textures/" + fileName));
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.err.println("Tried to load texture " + fileName + ".png, didn't work");
+			System.err.println("Tried to load texture " + fileName + ", didn't work");
 			System.exit(-1);
 		}
 		textures.add(texture.getTextureID());
@@ -302,7 +302,7 @@ public class Loader {
 				7, 4, 0, 3, 7, 0 };
 
 		ModelData modelData = new ModelData(
-				new MeshData(boxVertices, new float[0], new float[0], boxIndices, new int[0], new float[0]), null);
+				new MeshData(boxVertices, new float[0], new float[0], boxIndices, new int[0], new int[0], new float[0]), null);
 
 		RawModel rawModel = null;
 

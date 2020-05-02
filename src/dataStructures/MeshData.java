@@ -8,15 +8,17 @@ public class MeshData {
 	private float[] textureCoords;
 	private float[] normals;
 	private int[] indices;
+	private int[] materialChangeIndices;
 	private int[] jointIds;
 	private float[] vertexWeights;
 
-	public MeshData(float[] vertices, float[] textureCoords, float[] normals, int[] indices, int[] jointIds,
+	public MeshData(float[] vertices, float[] textureCoords, float[] normals, int[] indices, int[] materialChangeIndices, int[] jointIds,
 			float[] vertexWeights) {
 		this.vertices = vertices;
 		this.textureCoords = textureCoords;
 		this.normals = normals;
 		this.indices = indices;
+		this.materialChangeIndices = materialChangeIndices;
 		this.jointIds = jointIds;
 		this.vertexWeights = vertexWeights;
 	}
@@ -43,6 +45,11 @@ public class MeshData {
 
 	public int[] getIndices() {
 		return indices;
+	}
+
+	public int[] getMaterialChangeIndices()
+	{
+		return materialChangeIndices;
 	}
 
 	public int getVertexCount() {

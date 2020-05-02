@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<person>
+<name>john</name>
+<model>model.dae</model>
+<boundingBox>model.dae</boundingBox>
+<texture>diffuse.png</texture>
+<transparency>false</transparency>
+<useFakeLighting>false</useFakeLighting>
+<shineDamper>10.0</shineDamper>
+<reflectivity>0.2</reflectivity>
+</person>

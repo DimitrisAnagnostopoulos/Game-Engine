@@ -13,6 +13,7 @@ public class Collision {
 	public static Vector3f normalizedVelocity;
 	public static Vector3f basePoint;
 	public static boolean foundCollision;
+	public static boolean collidedAtAnyPoint;
 	public static double nearestDistance;
 	public static Vector3f intersectionPoint;
 	public static boolean stuck;
@@ -22,17 +23,18 @@ public class Collision {
 	public static boolean boundingBoxCollision(Entity entityA, Entity entityB) {
 		Boundaries a = entityA.getAbsoluteBoundingBox().getBoundaries();
 		Boundaries b = entityB.getAbsoluteBoundingBox().getBoundaries();
-		if (a.maxX < b.minX)
+		float offset = 10;
+		if (a.maxX < b.minX - offset)
 			return false;
-		if (a.minX > b.maxX)
+		if (a.minX > b.maxX + offset)
 			return false;
-		if (a.maxZ < b.minZ)
+		if (a.maxZ < b.minZ - offset)
 			return false;
-		if (a.minZ > b.maxZ)
+		if (a.minZ > b.maxZ + offset)
 			return false;
-		if (a.minY > b.maxY)
+		if (a.minY > b.maxY + offset)
 			return false;
-		if (a.maxY < b.minY)
+		if (a.maxY < b.minY - offset)
 			return false;
 		return true;
 	}
@@ -130,16 +132,15 @@ public class Collision {
 		  
 		// find the plane intersection point
 		if (pClass == "PLANE_BACKSIDE") { // plane is embedded in ellipsoid
-			return;
 		    
 			// find plane intersection point by shooting a ray from the 
 		    // sphere intersection point along the planes normal.
-			//distToPlaneIntersection = Maths.intersectRayPlane(sIPoint, pNormal, pOrigin, pNormal);
+			distToPlaneIntersection = Maths.intersectRayPlane(sIPoint, pNormal, pOrigin, pNormal);
 		    
 		    // calculate plane intersection point
-		    //pIPoint.x = sIPoint.x + distToPlaneIntersection * pNormal.x; 
-		    //pIPoint.y = sIPoint.y + distToPlaneIntersection * pNormal.y; 
-		    //pIPoint.z = sIPoint.z + distToPlaneIntersection * pNormal.z; 	
+		    pIPoint.x = sIPoint.x + distToPlaneIntersection * pNormal.x; 
+		    pIPoint.y = sIPoint.y + distToPlaneIntersection * pNormal.y; 
+		    pIPoint.z = sIPoint.z + distToPlaneIntersection * pNormal.z; 	
 		    
 		}else { 
 		    

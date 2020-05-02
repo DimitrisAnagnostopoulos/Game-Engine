@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<scenery>
+<name>face</name>
+<model>face</model>
+<boundingBox>face</boundingBox>
+<texture>white</texture>
+<transparency>false</transparency>
+<useFakeLighting>false</useFakeLighting>
+<shineDamper>10.0</shineDamper>
+<reflectivity>0.2</reflectivity>
+</scenery>

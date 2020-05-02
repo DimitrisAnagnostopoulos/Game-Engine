@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<scenery>
+<name>fern</name>
+<model>fern</model>
+<boundingBox></boundingBox>
+<texture>fern</texture>
+<transparency>true</transparency>
+<useFakeLighting>true</useFakeLighting>
+<shineDamper>0</shineDamper>
+<reflectivity>0</reflectivity>
+</scenery>

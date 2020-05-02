@@ -45,7 +45,6 @@ public class Handler {
 	public static Light light;
 	public static Terrain terrain;
 	public static Player player;
-	public static Entity pointer;
 
 	public static Map<Class<? extends Entity>, List<? extends Entity>> getEntities() {
 		return Handler.entities;
@@ -91,6 +90,7 @@ public class Handler {
 			rawModel = Game.loader.loadToVAO(data.getVertices(), data.getTextureCoords(), data.getNormals(),
 					data.getIndices(), data.getJointIds(), data.getVertexWeights());
 			rawModel.setJoints(data.getJointsData());
+			rawModel.setMaterialChangeIndices(data.getMaterialChangeIndices());
 			ModelData bbData = null;
 			if (entity.getSheet().boundingBox.length() != 0) {
 				if (entity.getSheet().boundingBox == entity.getSheet().model) {
@@ -225,13 +225,6 @@ public class Handler {
 			e.printStackTrace();
 		}
 		Game.running = true;
-		
-		EntitySheet pointerSheet = new EntitySheet();
-		pointerSheet.model = "bunny.obj";
-		pointerSheet.texture = "diffuse.png";
-		Handler.pointer = new Entity(pointerSheet, new Vector3f(200, 0, 200), 0, 0, 0, 0.1f);
-		assignModelToEntity(Handler.pointer);
-		Handler.addEntity(Handler.pointer);
 	}
 
 	public static void doForEachEntity(Consumer<Entity> function, String className) {

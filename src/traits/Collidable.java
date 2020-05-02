@@ -19,19 +19,14 @@ public interface Collidable {
 		if (velocity.length() == 0) return position;
 		Vector3f eSpacePosition = new Vector3f(position.x / eRadius.x, (position.y + eRadius.y) / eRadius.y, position.z / eRadius.z);
 		Vector3f eSpaceVelocity = new Vector3f(velocity.x / eRadius.x, velocity.y / eRadius.y, velocity.z / eRadius.z);
-		Collision.collisionRecursionDepth = 0;
-		Vector3f finalPosition = this.collideWithWorld(eSpacePosition, eSpaceVelocity);
+		Vector3f finalPosition = new Vector3f(this.collideWithWorld(eSpacePosition, eSpaceVelocity));
 		finalPosition.set(finalPosition.x * eRadius.x, (finalPosition.y * eRadius.y) - eRadius.y, finalPosition.z * eRadius.z);
 		return finalPosition;
 	}
 	
 	default Vector3f collideWithWorld(Vector3f pos, Vector3f vel) {
-		Collision.lastSafePosition = Vector3f.add(pos, vel, null);
 		
-		float veryCloseDistance = 0.001f;
-		if (Collision.collisionRecursionDepth > 5) {
-			return pos;
-		}
+		float veryCloseDistance = 0.1f;
 		
 		Vector3f dest = Vector3f.add(pos, vel, null);
 		Vector3f firstPlaneOrigin = null;
@@ -48,12 +43,7 @@ public interface Collidable {
 			checkCollision();
 			
 			if (Collision.foundCollision == false) return dest;
-			
-			if (Collision.stuck) {
-			    //return Collision.lastSafePosition;
-			}else{
-				Collision.lastSafePosition = pos;
-			}
+			else Collision.collidedAtAnyPoint = true;
 			
 			float dist = (float) Collision.nearestDistance;
 			float short_dist = (float) Math.max(dist - veryCloseDistance, 0.0f);
@@ -83,11 +73,7 @@ public interface Collidable {
 			}
 		}
 
-		if (vel.length() < veryCloseDistance) {
-			return pos;
-		}
-		Collision.collisionRecursionDepth++;
-		return collideWithWorld(pos, vel);
+		return pos;
 	}
 
 	default void checkCollision() {
@@ -95,7 +81,7 @@ public interface Collidable {
 		entities.addAll(Handler.getEntities("Scenery"));
 		entities.addAll(Handler.getEntities("Person"));
 		for (Entity entity : entities) {
-			if (entity.getAbsoluteBoundingBox() != null /* && Collision.boundingBoxCollision((Entity) this, entity) */) {
+			if (entity.getAbsoluteBoundingBox() != null && Collision.boundingBoxCollision((Entity) this, entity)) {
 				if (entity.getTriangles() != null) {
 					for (Triangle triangle : entity.getTriangles()) {
 						Vector3f p1 = new Vector3f(triangle.vertices.get(0));

@@ -33,6 +33,7 @@ public class OBJFileLoader {
 		List<Vector2f> textures = new ArrayList<Vector2f>();
 		List<Vector3f> normals = new ArrayList<Vector3f>();
 		List<Integer> indices = new ArrayList<Integer>();
+		List<Integer> materialChangeIndices = new ArrayList<Integer>();
 		try {
 			while (true) {
 				line = reader.readLine();
@@ -53,18 +54,22 @@ public class OBJFileLoader {
 					Vector3f normal = new Vector3f((float) Float.valueOf(currentLine[1]),
 							(float) Float.valueOf(currentLine[2]), (float) Float.valueOf(currentLine[3]));
 					normals.add(normal);
-				} else if (line.startsWith("f ")) {
+				} else if (line.startsWith("f ") || line.startsWith("usemtl ")) {
 					break;
 				}
 			}
-			while (line != null && line.startsWith("f ")) {
-				String[] currentLine = line.split(" ");
-				String[] vertex1 = currentLine[1].split("/");
-				String[] vertex2 = currentLine[2].split("/");
-				String[] vertex3 = currentLine[3].split("/");
-				processVertex(vertex1, vertices, indices);
-				processVertex(vertex2, vertices, indices);
-				processVertex(vertex3, vertices, indices);
+			while (line != null) {
+				if (line.startsWith("usemtl ")) {
+					materialChangeIndices.add(indices.size());
+				} else if (line.startsWith("f ")) {
+					String[] currentLine = line.split(" ");
+					String[] vertex1 = currentLine[1].split("/");
+					String[] vertex2 = currentLine[2].split("/");
+					String[] vertex3 = currentLine[3].split("/");
+					processVertex(vertex1, vertices, indices);
+					processVertex(vertex2, vertices, indices);
+					processVertex(vertex3, vertices, indices);
+				}
 				line = reader.readLine();
 			}
 			reader.close();
@@ -77,7 +82,8 @@ public class OBJFileLoader {
 		float[] normalsArray = new float[vertices.size() * 3];
 		convertDataToArrays(vertices, textures, normals, verticesArray, texturesArray, normalsArray);
 		int[] indicesArray = convertIndicesListToArray(indices);
-		MeshData meshData = new MeshData(verticesArray, texturesArray, normalsArray, indicesArray,
+		int[] materialChangeIndicesArray = convertIndicesListToArray(materialChangeIndices);
+		MeshData meshData = new MeshData(verticesArray, texturesArray, normalsArray, indicesArray, materialChangeIndicesArray, 
 				new int[indicesArray.length * 3], new float[indicesArray.length * 3]);
 		ModelData data = new ModelData(meshData, null);
 		return data;
